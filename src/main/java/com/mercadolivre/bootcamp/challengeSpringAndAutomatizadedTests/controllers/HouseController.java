@@ -4,6 +4,8 @@ import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.House
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.RoomDTO;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.services.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,8 +17,8 @@ public class HouseController {
     private HouseService houseService;
 
     @GetMapping("/house/size")
-    public HouseDTO getTotalHouseSize(@RequestBody @Valid HouseDTO house) {
-        return houseService.getHouseSize(house);
+    public ResponseEntity getTotalHouseSize(@RequestBody @Valid HouseDTO house) {
+        return new ResponseEntity(houseService.getHouseSize(house).getTotalSize(), HttpStatus.OK);
     }
 
     @GetMapping("/house/value")

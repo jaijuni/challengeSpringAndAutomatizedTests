@@ -10,11 +10,11 @@ public class RoomDTO {
     private String name;
 
     @NotNull(message = "The width of room cannot be null")
-    @Max(25)
+    @Max(value = 25, message = "The maximum width of a room is 25 meters")
     private Double width;
 
     @NotNull(message = "The length of room cannot be null")
-    @Max(33)
+    @Max(value = 33, message = "The maximum length of a room is 33 meters")
     private Double length;
 
     public String getName() {
