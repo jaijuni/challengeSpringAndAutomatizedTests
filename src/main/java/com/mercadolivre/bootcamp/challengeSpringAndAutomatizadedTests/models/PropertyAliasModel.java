@@ -9,6 +9,9 @@ public class PropertyAliasModel {
 
     public PropertyAliasModel() {
         aliases.put("Jardim Leoni", 800.0);
+        aliases.put("Jardim Abacate", 400.0);
+        aliases.put("Jardim Morumbi", 1000.0);
+        aliases.put("Jardim Fortaleza", 900.0);
         aliases.put("Fortaleza", 1000.0);
         aliases.put("Morumbi", 950.0);
         aliases.put("Ribeiro", 800.0);

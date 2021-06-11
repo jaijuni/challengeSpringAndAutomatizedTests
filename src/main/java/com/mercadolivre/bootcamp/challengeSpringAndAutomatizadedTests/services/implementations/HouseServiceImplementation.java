@@ -24,7 +24,7 @@ public class HouseServiceImplementation implements HouseService {
         house.setTotalSize(totalSize);
         return house.getTotalSize();
     }
-
+      
     public HouseDTO getHouseAmount(HouseDTO house) throws NoAliasFoundedException {
         Double totalSize = this.getHouseSize(house);
         house.setAmount(totalSize * getValueByAliasName(house.getAlias()));

@@ -2,7 +2,6 @@ package com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.models;
 
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.HouseDTO;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.RoomDTO;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,14 +11,12 @@ public class HouseModel {
     private List<RoomModel> rooms;
     private Double amount;
     private Double totalSize;
-    public static HashMap<String, Double> listOfAliases = new HashMap<>();
-
+    
     public HouseModel(String name, String alias, List<RoomModel> rooms) {
         this.name = name;
         this.alias = alias;
         this.rooms = rooms;
     }
-
     public HouseModel() {
 
     }
