@@ -19,7 +19,6 @@ import java.util.List;
 
 @SpringBootTest
 class ChallengeSpringAndAutomatizadedTestsApplicationTests {
-
 	private static HouseDTO houseDTO = new HouseDTO();
 	private static HouseService service = new HouseServiceImplementation();
 	private static RoomDTO room = new RoomDTO();

@@ -4,16 +4,19 @@ import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.models.Roo
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
 public class HouseDTO {
 
     @NotNull(message="The property name cannot be null")
+    @Pattern(regexp = "[A-Z][a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\\s]*",message = "The property name must be capitalized")
     @Size(max=30, message = "The property name cannot have more of 30 characters")
     private String name;
 
     @NotNull(message = "The alias of property cannot be null")
+    @Pattern(regexp = "[A-Z][a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\\s]*",message = "The property alias must be capitalized")
     @Size(max=45, message = "The property alias cannot have more of 45 characters")
     private String alias;
 
