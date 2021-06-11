@@ -19,4 +19,12 @@ public class HouseApiExceptionControllerAdvice {
         responseBody.setCause(ex.getFieldError().getField());
         return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = { NoAliasFoundedException.class})
+    protected ResponseEntity<Object> handleDefault(NoAliasFoundedException ex, WebRequest req) {
+        var responseBody = new ErrorResponseDTO();
+        responseBody.setMessage(Objects.requireNonNull(ex.getMessage()));
+        responseBody.setCause(ex.getFieldError());
+        return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
+    }
 }
