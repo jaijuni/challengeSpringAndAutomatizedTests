@@ -13,6 +13,9 @@ import java.util.HashMap;
 
 @Component
 public class HouseServiceImplementation implements HouseService {
+
+    PropertyAliasModel propertyAliasModel = new PropertyAliasModel();
+
     @Override
     public Double getHouseSize(HouseDTO house) {
         double totalSize = 0.0;
@@ -46,7 +49,6 @@ public class HouseServiceImplementation implements HouseService {
     }
 
     public Double getValueByAliasName(String name) throws NoAliasFoundedException {
-        PropertyAliasModel propertyAliasModel = new PropertyAliasModel();
         return propertyAliasModel.getByAliasName(name);
     }
 }

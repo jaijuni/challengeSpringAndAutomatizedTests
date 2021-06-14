@@ -1,6 +1,10 @@
 package com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.HouseDTO;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.RoomDTO;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.exceptions.NoAliasFoundedException;
@@ -11,6 +15,7 @@ import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.services.H
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.services.implementations.HouseServiceImplementation;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -19,12 +24,15 @@ import java.util.List;
 
 @SpringBootTest
 class ChallengeSpringAndAutomatizadedTestsApplicationTests {
+
 	private static HouseDTO houseDTO = new HouseDTO();
+	@InjectMocks
 	private static HouseService service = new HouseServiceImplementation();
 	private static RoomDTO room = new RoomDTO();
 	private static List<RoomDTO> rooms = new ArrayList<>();
 	private static PropertyAliasModel alias = new PropertyAliasModel();
 	private static HashMap<String, Double> listOfAliases = new HashMap<String, Double>();
+
 
 	@BeforeAll
 	public static void initTheHouseObject() {
@@ -47,7 +55,6 @@ class ChallengeSpringAndAutomatizadedTestsApplicationTests {
 		houseDTO.setAlias("Jardim Leoni");
 		houseDTO.setRooms(rooms);
 
-		alias.setAliases(listOfAliases);
 	}
 
 	@Test
@@ -63,13 +70,13 @@ class ChallengeSpringAndAutomatizadedTestsApplicationTests {
 	}
 
 	@Test
-	public void shouldReturnAnExceptionIfAliasNotFound() {
-		assertThatThrownBy(() -> service.getValueByAliasName("Jardim Leoni 2")).hasMessage("Alias not founded on database");
+	public void shouldReturnAnExceptionIfAliasNotFound() throws NoAliasFoundedException {
+		assertThatThrownBy(() -> alias.getByAliasName("Jardim Leonis")).isInstanceOf(NoAliasFoundedException.class).hasMessage("Alias not founded on database");
 	}
 
 	@Test
 	public void shouldReturnValueOfSquareMeterOfAnAlias() throws NoAliasFoundedException{
-		assertThat(service.getValueByAliasName("Jardim Leoni")).isEqualTo(800.0);
+		assertThat(alias.getByAliasName("Fortaleza")).isEqualTo(1000.0);
 	}
 
 	@Test
@@ -79,17 +86,16 @@ class ChallengeSpringAndAutomatizadedTestsApplicationTests {
 
 		for (int i = 1; i< rooms.size(); i++) {
 			RoomDTO room = rooms.get(i);
-			if(RoomModel.getSize(room) > RoomModel.getSize(biggestRoom)) {
+			if(RoomModel.getSize(room) > RoomModel.getSize(room)) {
 				biggestRoom = room;
 			}
 		}
 
-		assertThat(service.getBiggestRoom(houseDTO)).isEqualTo(biggestRoom);
+		assertThat(HouseModel.getBiggestRoom(houseDTO)).isEqualTo(biggestRoom);
 	}
 
 	@Test
 	public void shouldReturnTheCorrectNumberOfARoom() {
-		RoomDTO room = houseDTO.getRooms().get(0);
 		assertThat(RoomModel.getSize(room)).isEqualTo(room.getLength() * room.getWidth());
 	}
 }
