@@ -2,7 +2,9 @@ package com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.services.
 
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.HouseDTO;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.dtos.RoomDTO;
+import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.exceptions.NoAliasFoundedException;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.models.HouseModel;
+import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.models.PropertyAliasModel;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.models.RoomModel;
 import com.mercadolivre.bootcamp.challengeSpringAndAutomatizadedTests.services.HouseService;
 import org.springframework.stereotype.Component;
@@ -11,8 +13,11 @@ import java.util.HashMap;
 
 @Component
 public class HouseServiceImplementation implements HouseService {
+
+    PropertyAliasModel propertyAliasModel = new PropertyAliasModel();
+
     @Override
-    public HouseDTO getHouseSize(HouseDTO house) {
+    public Double getHouseSize(HouseDTO house) {
         double totalSize = 0.0;
 
         for (RoomDTO room: house.getRooms()) {
@@ -20,12 +25,12 @@ public class HouseServiceImplementation implements HouseService {
         }
 
         house.setTotalSize(totalSize);
-        return house;
+        return house.getTotalSize();
     }
-
-    public HouseDTO getHouseAmount(HouseDTO house) {
-        Double totalSize = this.getHouseSize(house).getTotalSize();
-        house.setAmount(totalSize * 800);
+      
+    public HouseDTO getHouseAmount(HouseDTO house) throws NoAliasFoundedException {
+        Double totalSize = this.getHouseSize(house);
+        house.setAmount(totalSize * getValueByAliasName(house.getAlias()));
         return house;
     }
 
@@ -41,5 +46,9 @@ public class HouseServiceImplementation implements HouseService {
         }
 
         return roomSizesHashMap;
+    }
+
+    public Double getValueByAliasName(String name) throws NoAliasFoundedException {
+        return propertyAliasModel.getByAliasName(name);
     }
 }
