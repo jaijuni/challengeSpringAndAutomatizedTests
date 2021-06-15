@@ -23,12 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 
 @SpringBootTest
-class ChallengeSpringAndAutomatizadedTestsApplicationTests {
+class ChallengeUnitTests {
 
 	private static HouseDTO houseDTO = new HouseDTO();
 	@InjectMocks
 	private static HouseService service = new HouseServiceImplementation();
 	private static RoomDTO room = new RoomDTO();
+	private static RoomDTO room1 = new RoomDTO();
+	private static RoomDTO room2 = new RoomDTO();
 	private static List<RoomDTO> rooms = new ArrayList<>();
 	private static PropertyAliasModel alias = new PropertyAliasModel();
 	private static HashMap<String, Double> listOfAliases = new HashMap<String, Double>();
@@ -37,19 +39,19 @@ class ChallengeSpringAndAutomatizadedTestsApplicationTests {
 	@BeforeAll
 	public static void initTheHouseObject() {
 		room.setName("Living Room");
-		room.setLength(20.0);
+		room.setLength(30.0);
 		room.setWidth(30.0);
 		rooms.add(room);
 
-		room.setName("Kitchen");
-		room.setLength(20.0);
-		room.setWidth(20.0);
-		rooms.add(room);
+		room1.setName("Kitchen");
+		room1.setLength(20.0);
+		room1.setWidth(20.0);
+		rooms.add(room1);
 
-		room.setName("Bed Room");
-		room.setLength(20.0);
-		room.setWidth(30.0);
-		rooms.add(room);
+		room2.setName("Bed Room");
+		room2.setLength(20.0);
+		room2.setWidth(30.0);
+		rooms.add(room2);
 
 		houseDTO.setName("Test's House");
 		houseDTO.setAlias("Jardim Leoni");
@@ -59,43 +61,38 @@ class ChallengeSpringAndAutomatizadedTestsApplicationTests {
 
 	@Test
 	public void shouldReturnTheTotalOfSquareMetersOfAHouse() {
-		Double houseSize = 0.0;
+		Double houseSizeToCompare = 1900.0;
 
-		for (int i=0; i < houseDTO.getRooms().size(); i++) {
-			RoomDTO room = houseDTO.getRooms().get(i);
-			houseSize = houseSize + (room.getLength() * room.getWidth());
-		}
+		Double testCase = service.getHouseSize(houseDTO);
 
-		assertThat(service.getHouseSize(houseDTO)).isEqualTo(houseSize);
+		assertThat(testCase).isEqualTo(houseSizeToCompare);
 	}
 
 	@Test
 	public void shouldReturnAnExceptionIfAliasNotFound() throws NoAliasFoundedException {
-		assertThatThrownBy(() -> alias.getByAliasName("Jardim Leonis")).isInstanceOf(NoAliasFoundedException.class).hasMessage("Alias not founded on database");
+		assertThatThrownBy(() -> alias.getByAliasName("Jardim Leonis"))
+				.isInstanceOf(NoAliasFoundedException.class)
+				.hasMessage("Alias not founded on database");
 	}
 
 	@Test
 	public void shouldReturnValueOfSquareMeterOfAnAlias() throws NoAliasFoundedException{
-		assertThat(alias.getByAliasName("Fortaleza")).isEqualTo(1000.0);
+		Double expectedValue = 1000.0;
+
+		Double testCase = alias.getByAliasName("Fortaleza");
+
+		assertThat(testCase).isEqualTo(expectedValue);
 	}
 
 	@Test
 	public void shouldReturnTheBiggestRoomFromTheHouse() {
-		List<RoomDTO> rooms = houseDTO.getRooms();
 		RoomDTO biggestRoom = rooms.get(0);
-
-		for (int i = 1; i< rooms.size(); i++) {
-			RoomDTO room = rooms.get(i);
-			if(RoomModel.getSize(room) > RoomModel.getSize(room)) {
-				biggestRoom = room;
-			}
-		}
-
-		assertThat(HouseModel.getBiggestRoom(houseDTO)).isEqualTo(biggestRoom);
+		RoomDTO testCase = HouseModel.getBiggestRoom(houseDTO);
+		assertThat(testCase).isEqualTo(biggestRoom);
 	}
 
 	@Test
-	public void shouldReturnTheCorrectNumberOfARoom() {
+	public void shouldReturnTheCorrectSizeOfARoom() {
 		assertThat(RoomModel.getSize(room)).isEqualTo(room.getLength() * room.getWidth());
 	}
 }

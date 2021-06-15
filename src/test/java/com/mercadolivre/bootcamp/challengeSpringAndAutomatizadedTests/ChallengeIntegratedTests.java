@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class ChallengeSpringAndAutomatizadedIntegrationTests {
+public class ChallengeIntegratedTests {
 
     private static PropertyAliasModel aliasModel = new PropertyAliasModel();
     private static HouseDTO house = new HouseDTO();
